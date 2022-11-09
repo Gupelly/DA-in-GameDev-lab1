@@ -53,11 +53,64 @@
 
 
 ## Задание 3
-### Самостоятельно разработать сценарий воспроизведения звукового сопровождения в Unity в зависимости от изменения считанных данных в задании 2. 
-Будем брать значения из переменной loss, так как она характеризует функцию потерь.
-Будем воспроизводить "хорошую" реплику, если loss меньше 1000,
-"Нормальную", если loss от 1000 до 2000
-"Плохую", если loss от больше 2000
-![100](https://user-images.githubusercontent.com/103359810/195175871-96a14b82-19ae-4cfe-b1c0-51b5925e6695.PNG)
+### Доработайте сцену и обучите ML-Agent таким образом, чтобы шар перемещался между двумя кубами разного цвета.
+Для решения этой задачи я реализовал несколько скриптов. Основные отличия находятся в методе OnActionReceived()
+1. Если шарик достает до любого из таргет, он получает награду 1f
+### 	float distanceToTarget1 = Vector3.Distance(this.transform.localPosition, Target.localPosition);
+###   float distanceToTarget2 = Vector3.Distance(this.transform.localPosition, Target.localPosition);
+###
+###    if(distanceToTarget1 < 1.42f || distanceToTarget2 < 1.42f)
+###        {
+###            SetReward(1.0f);
+###            EndEpisode();
+###        }
+###        else if (this.transform.localPosition.y < 0)
+###        {
+###            EndEpisode();
+###        }
+![Снимок экрана (129)](https://user-images.githubusercontent.com/103359810/200907652-48f8e4f7-2cc9-4b66-bbf8-519777d150c4.png)
+
+2. Шарик получает бОльшую награду, если находит куб, расстояние до которого было короче
+###        float longDistance = Math.Max(distanceToTarget1, distanceToTarget2);
+###        float shrotDistance = Math.Min(distanceToTarget1, distanceToTarget2);
+###
+###        if(shrotDistance < 1.42f)
+###        {
+###            SetReward(2.0f);
+###            EndEpisode();
+###        }
+###        else if(longDistance < 1.42f)
+###        {
+###            SetReward(1.0f);
+###            EndEpisode();
+###        }
+###        else if (this.transform.localPosition.y < 0)
+###        {
+###            EndEpisode();
+###        }
+![Снимок экрана (130)](https://user-images.githubusercontent.com/103359810/200908396-219b8eca-1e4c-41c5-934e-22081fe945d4.png)
+
+3. Шарик получает награду только в том случае, если доходит до цели, до которой было наименьшее растояние
+###         float distanceToTarget1 = Vector3.Distance(this.transform.localPosition, Target1.localPosition);
+###     float distanceToTarget2 = Vector3.Distance(this.transform.localPosition, Target2.localPosition);
+###     float longDistance = Math.Max(distanceToTarget1, distanceToTarget2);
+###     float shrotDistance = Math.Min(distanceToTarget1, distanceToTarget2);
+###
+###   if(shrotDistance < 1.42f)
+###     {
+###         SetReward(1.0f);
+###         EndEpisode();
+###     }
+###     else if (this.transform.localPosition.y < 0)
+###     {
+###         EndEpisode();
+###     }
+![Снимок экрана (131)](https://user-images.githubusercontent.com/103359810/200909239-55793300-0ca9-41ce-82dc-efe2b19970e3.png)
+
+Во всех трех случайх эффективность обучения ниже, чем в случае с одним кубиком. Наиболее эффективным оказался первый вариант кода, наименее эффективным - второй вариант.
+Вывод:
+Игровой баланс — субъективное «равновесие» между различными игровыми объектами. Отсутвие игрового баланса может привести к нечестной сложности, наоборот простоте игры, решения, которые принимает игрок, могут перестать влиять на что-то или оказаться очевмдными.
+Таким образом машинное обучение может быть полезно тем, что после некоторого числа итераций находит наиболее эффективные решения, тем самым указывая разработчмкам, какие элементы игры нуждаются в правке баланса.
+
 
 
