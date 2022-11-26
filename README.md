@@ -21,14 +21,23 @@
 ![train](https://user-images.githubusercontent.com/103359810/204080862-95f74250-ca29-4215-b707-3b4349aea3b0.PNG)
 
 1) OR работает корректно
+
 ![or](https://user-images.githubusercontent.com/103359810/204081037-5a352e56-b64e-4064-9409-d6664839a0e8.PNG)
+
 2) AND работает корректно
+
 ![AND](https://user-images.githubusercontent.com/103359810/204081085-7673e037-2320-47cb-b1e4-b774e00293fc.PNG)
+
 3) NAND работает корректно
+
 ![NAND](https://user-images.githubusercontent.com/103359810/204081161-24a3481a-c126-4eb2-836b-ecd3a9dfe76e.PNG)
+
 4) XOR работает некорректно. Это связанно с тем, что перцептрон не может решать задачи нелинейной классификации
+
 ![хор](https://user-images.githubusercontent.com/103359810/204081317-e39c5296-7818-44a2-85c2-321889f9a45d.PNG)
+
 Чтобы убедиться в этом, увеличим входной аргумент epochs метода Train()
+
 ![xor big](https://user-images.githubusercontent.com/103359810/204081670-ac3f6eea-a20d-434c-be86-267cc876ade2.PNG)
 
 ## Задание 2
